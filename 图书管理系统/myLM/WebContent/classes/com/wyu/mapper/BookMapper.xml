@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyu.mapper.BookMapper">
+	<resultMap id="BaseResultMap" type="com.wyu.pojo.BookAll">
+		<id column="bookNumber" property="booknumber" jdbcType="VARCHAR" />
+		<result column="ISBN" property="isbn" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="author" property="author" jdbcType="VARCHAR" />
+		<result column="translator" property="translator"
+			jdbcType="VARCHAR" />
+		<result column="publishHouseNumber"
+			property="publishhousenumber" jdbcType="INTEGER" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="callNumber" property="callnumber"
+			jdbcType="VARCHAR" />
+		<result column="imgLocation" property="imglocation"
+			jdbcType="VARCHAR" />
+		<result column="classificationNumber"
+			property="classificationnumber" jdbcType="INTEGER" />
+		<result column="seClassification" property="seclassification"
+			jdbcType="VARCHAR" />
+		<result column="typeCirculationNumber"
+			property="typecirculationnumber" jdbcType="INTEGER" />
+		<result column="borrowTimes" property="borrowtimes"
+			jdbcType="INTEGER" />
+		<result column="bookStatusNumber" property="bookstatusnumber"
+			jdbcType="INTEGER" />
+		<result column="entryDate" property="entrydate"
+			jdbcType="TIMESTAMP" />
+		<result column="publishYear" property="publishyear"
+			jdbcType="DATE" />
+		<result column="typeBook_CFNumber" property="typebookCfnumber"
+			jdbcType="INTEGER" />
+
+
+
+		<!-- 多表查询 -->
+		<!--	
+		<result column="publishHouseName" property="publishhousename"
+			jdbcType="VARCHAR" />
+		<result column="typeCirculationName"
+			property="typecirculationname" jdbcType="VARCHAR" />
+		<result column="bookStatus" property="bookstatus"
+			jdbcType="VARCHAR" />
+		<result column="typeBook_CFName" property="typebookcfname"
+			jdbcType="VARCHAR" />
+		<result column="classificationType"
+			property="classificationtype" jdbcType="VARCHAR" />
+				<result column="classificationLetter"
+			property="classificationletter" jdbcType="VARCHAR" />
+			
+	 -->
+
+		<collection property="Publishhouse"
+			ofType="com.wyu.pojo.Publishhouse">
+			<id column="publishHouseNumber" property="publishhousenumber"
+				jdbcType="INTEGER" />
+			<result column="publishHouseName" property="publishhousename"
+				jdbcType="VARCHAR" />
+			<result column="letter" property="letter" jdbcType="VARCHAR" />
+		</collection>
+
+		<collection property="StatusBook"
+			ofType="com.wyu.pojo.StatusBook">
+			<id column="bookStatusNumber" property="bookstatusnumber"
+				jdbcType="INTEGER" />
+			<result column="bookStatus" property="bookstatus"
+				jdbcType="VARCHAR" />
+		</collection>
+
+		<collection property="TypebookCf"
+			ofType="com.wyu.pojo.TypebookCf">
+			<id column="typeBook_CFNumber" property="typebookCfnumber"
+				jdbcType="INTEGER" />
+			<result column="typeBook_CFName" property="typebookCfname"
+				jdbcType="VARCHAR" />
+			<result column="overdueDailyMoney"
+				property="overduedailymoney" jdbcType="REAL" />
+		</collection>
+
+		<collection property="TypecirculationBook"
+			ofType="com.wyu.pojo.TypecirculationBook">
+			<id column="typeCirculationNumber"
+				property="typecirculationnumber" jdbcType="INTEGER" />
+			<result column="typeCirculationName"
+				property="typecirculationname" jdbcType="VARCHAR" />
+		</collection>
+
+		<collection property="ClassificationBook"
+			ofType="com.wyu.pojo.ClassificationBook">
+			<id column="classificationNumber" property="classificationnumber"
+				jdbcType="INTEGER" />
+			<result column="classificationLetter"
+				property="classificationletter" jdbcType="VARCHAR" />
+			<result column="classificationType"
+				property="classificationtype" jdbcType="VARCHAR" />
+		</collection>
+
+
+
+	</resultMap>
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and book.${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and book.${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and book.${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and book.${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		bookNumber, ISBN, title, author, translator,
+		publishHouseNumber, summary,
+		callNumber,
+		imgLocation,
+		classificationNumber, seClassification, typeCirculationNumber,
+		borrowTimes,
+		bookStatusNumber, entryDate, publishYear,
+		typeBook_CFNumber
+	</sql>
+	<!-- 多表 -->
+	<sql id="Base_Column_Lists">
+		bookNumber, ISBN, title, author, translator,
+		book.publishHouseNumber, summary,
+		callNumber,
+		imgLocation,
+		book.classificationNumber, seClassification,
+		book.typeCirculationNumber,
+		borrowTimes,
+		book.bookStatusNumber,
+		entryDate, publishYear, book.typeBook_CFNumber,
+		publishHouseName,
+		classificationType,
+		typeCirculationName,
+		bookStatus,
+		typeBook_CFName,
+		classificationLetter,letter,overdueDailyMoney
+		
+	</sql>
+	
+	<!-- 联合查询 -->
+	
+	<select id="selectBybookExample" resultMap="BaseResultMap" parameterType="com.wyu.pojo.BookExample">
+       select 
+		<if test="distinct"> 
+			distinct
+		</if> 
+		<include refid="Base_Column_Lists" />  
+		From book
+		right JOIN  classification_book on book.classificationNumber =classification_book.classificationNumber 
+		right JOIN  status_book  ON book.bookStatusNumber = status_book.bookStatusNumber 
+		right JOIN  typebook_cf  ON book.typeBook_CFNumber =typebook_cf.typeBook_CFNumber 
+		right JOIN  typecirculation_book  ON book.typeCirculationNumber =typecirculation_book.typeCirculationNumber 
+		right JOIN  publishhouse  ON book.publishHouseNumber = publishhouse.publishHouseNumber
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		
+    </select>
+	
+	
+	<!-- 多表查询 -->
+	<!--
+	<select id="selectBybookExample" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select 
+		<if test="distinct"> 
+			distinct
+		</if> 
+		<include refid="Base_Column_Lists" /> 
+		from book,publishhouse ,classification_book ,typecirculation_book
+		,status_book ,typebook_cf
+		where
+		book.classificationNumber
+		=classification_book.classificationNumber and
+		book.bookStatusNumber =
+		status_book.bookStatusNumber and
+		book.typeBook_CFNumber
+		=typebook_cf.typeBook_CFNumber and
+		book.typeCirculationNumber
+		=typecirculation_book.typeCirculationNumber and
+		book.publishHouseNumber = publishhouse.publishHouseNumber
+		<if test="_parameter != null"> 
+	
+			 <include refid="Example_Where_Clause" /> 
+		</if> 
+		<if test="orderByClause != null"> 
+			order by ${orderByClause} 
+		</if>  
+		
+	</select>
+	 -->
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.wyu.pojo.BookExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from book
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from book
+		where bookNumber = #{booknumber,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from book
+		where bookNumber = #{booknumber,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="com.wyu.pojo.BookExample">
+		delete from book
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.wyu.pojo.Book">
+		insert into book (bookNumber,
+		ISBN, title,
+		author, translator, publishHouseNumber,
+		summary,
+		callNumber, imgLocation,
+		classificationNumber, seClassification,
+		typeCirculationNumber, borrowTimes, bookStatusNumber,
+		entryDate,
+		publishYear, typeBook_CFNumber
+		)
+		values (#{booknumber,jdbcType=VARCHAR},
+		#{isbn,jdbcType=VARCHAR},
+		#{title,jdbcType=VARCHAR},
+		#{author,jdbcType=VARCHAR}, #{translator,jdbcType=VARCHAR},
+		#{publishhousenumber,jdbcType=INTEGER},
+		#{summary,jdbcType=VARCHAR},
+		#{callnumber,jdbcType=VARCHAR}, #{imglocation,jdbcType=VARCHAR},
+		#{classificationnumber,jdbcType=INTEGER},
+		#{seclassification,jdbcType=VARCHAR},
+		#{typecirculationnumber,jdbcType=INTEGER},
+		#{borrowtimes,jdbcType=INTEGER}, #{bookstatusnumber,jdbcType=INTEGER},
+		#{entrydate,jdbcType=TIMESTAMP}, #{publishyear,jdbcType=DATE},
+		#{typebookCfnumber,jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<insert id ="insertMany" parameterType="com.wyu.pojo.Book" >             
+    	insert into book (bookNumber,
+		ISBN, title,
+		author, translator, publishHouseNumber,
+		summary,
+		callNumber, imgLocation,
+		classificationNumber, seClassification,
+		typeCirculationNumber, borrowTimes, bookStatusNumber,
+		entryDate,
+		publishYear, typeBook_CFNumber
+		)
+		values
+    	<foreach collection="list" item="book" separator=",">
+        (#{book.booknumber,jdbcType=VARCHAR},
+		#{book.isbn,jdbcType=VARCHAR},
+		#{book.title,jdbcType=VARCHAR},
+		#{book.author,jdbcType=VARCHAR}, #{book.translator,jdbcType=VARCHAR},
+		#{book.publishhousenumber,jdbcType=INTEGER},
+		#{book.summary,jdbcType=VARCHAR},
+		#{book.callnumber,jdbcType=VARCHAR}, #{book.imglocation,jdbcType=VARCHAR},
+		#{book.classificationnumber,jdbcType=INTEGER},
+		#{book.seclassification,jdbcType=VARCHAR},
+		#{book.typecirculationnumber,jdbcType=INTEGER},
+		#{book.borrowtimes,jdbcType=INTEGER}, #{book.bookstatusnumber,jdbcType=INTEGER},
+		#{book.entrydate,jdbcType=TIMESTAMP}, #{book.publishyear,jdbcType=DATE},
+		#{book.typebookCfnumber,jdbcType=INTEGER}
+		)
+    	</foreach>
+	</insert >	
+	
+	<insert id="insertSelective" parameterType="com.wyu.pojo.Book">
+		insert into book
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="booknumber != null">
+				bookNumber,
+			</if>
+			<if test="isbn != null">
+				ISBN,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="author != null">
+				author,
+			</if>
+			<if test="translator != null">
+				translator,
+			</if>
+			<if test="publishhousenumber != null">
+				publishHouseNumber,
+			</if>
+			<if test="summary != null">
+				summary,
+			</if>
+			<if test="callnumber != null">
+				callNumber,
+			</if>
+			<if test="imglocation != null">
+				imgLocation,
+			</if>
+			<if test="classificationnumber != null">
+				classificationNumber,
+			</if>
+			<if test="seclassification != null">
+				seClassification,
+			</if>
+			<if test="typecirculationnumber != null">
+				typeCirculationNumber,
+			</if>
+			<if test="borrowtimes != null">
+				borrowTimes,
+			</if>
+			<if test="bookstatusnumber != null">
+				bookStatusNumber,
+			</if>
+			<if test="entrydate != null">
+				entryDate,
+			</if>
+			<if test="publishyear != null">
+				publishYear,
+			</if>
+			<if test="typebookCfnumber != null">
+				typeBook_CFNumber,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="booknumber != null">
+				#{booknumber,jdbcType=VARCHAR},
+			</if>
+			<if test="isbn != null">
+				#{isbn,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				#{author,jdbcType=VARCHAR},
+			</if>
+			<if test="translator != null">
+				#{translator,jdbcType=VARCHAR},
+			</if>
+			<if test="publishhousenumber != null">
+				#{publishhousenumber,jdbcType=INTEGER},
+			</if>
+			<if test="summary != null">
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="callnumber != null">
+				#{callnumber,jdbcType=VARCHAR},
+			</if>
+			<if test="imglocation != null">
+				#{imglocation,jdbcType=VARCHAR},
+			</if>
+			<if test="classificationnumber != null">
+				#{classificationnumber,jdbcType=INTEGER},
+			</if>
+			<if test="seclassification != null">
+				#{seclassification,jdbcType=VARCHAR},
+			</if>
+			<if test="typecirculationnumber != null">
+				#{typecirculationnumber,jdbcType=INTEGER},
+			</if>
+			<if test="borrowtimes != null">
+				#{borrowtimes,jdbcType=INTEGER},
+			</if>
+			<if test="bookstatusnumber != null">
+				#{bookstatusnumber,jdbcType=INTEGER},
+			</if>
+			<if test="entrydate != null">
+				#{entrydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="publishyear != null">
+				#{publishyear,jdbcType=DATE},
+			</if>
+			<if test="typebookCfnumber != null">
+				#{typebookCfnumber,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.wyu.pojo.BookExample"
+		resultType="java.lang.Integer">
+		select count(*) from book
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update book
+		<set>
+			<if test="record.booknumber != null">
+				bookNumber = #{record.booknumber,jdbcType=VARCHAR},
+			</if>
+			<if test="record.isbn != null">
+				ISBN = #{record.isbn,jdbcType=VARCHAR},
+			</if>
+			<if test="record.title != null">
+				title = #{record.title,jdbcType=VARCHAR},
+			</if>
+			<if test="record.author != null">
+				author = #{record.author,jdbcType=VARCHAR},
+			</if>
+			<if test="record.translator != null">
+				translator = #{record.translator,jdbcType=VARCHAR},
+			</if>
+			<if test="record.publishhousenumber != null">
+				publishHouseNumber =
+				#{record.publishhousenumber,jdbcType=INTEGER},
+			</if>
+			<if test="record.summary != null">
+				summary = #{record.summary,jdbcType=VARCHAR},
+			</if>
+			<if test="record.callnumber != null">
+				callNumber = #{record.callnumber,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imglocation != null">
+				imgLocation = #{record.imglocation,jdbcType=VARCHAR},
+			</if>
+			<if test="record.classificationnumber != null">
+				classificationNumber =
+				#{record.classificationnumber,jdbcType=INTEGER},
+			</if>
+			<if test="record.seclassification != null">
+				seClassification =
+				#{record.seclassification,jdbcType=VARCHAR},
+			</if>
+			<if test="record.typecirculationnumber != null">
+				typeCirculationNumber =
+				#{record.typecirculationnumber,jdbcType=INTEGER},
+			</if>
+			<if test="record.borrowtimes != null">
+				borrowTimes = #{record.borrowtimes,jdbcType=INTEGER},
+			</if>
+			<if test="record.bookstatusnumber != null">
+				bookStatusNumber =
+				#{record.bookstatusnumber,jdbcType=INTEGER},
+			</if>
+			<if test="record.entrydate != null">
+				entryDate = #{record.entrydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.publishyear != null">
+				publishYear = #{record.publishyear,jdbcType=DATE},
+			</if>
+			<if test="record.typebookCfnumber != null">
+				typeBook_CFNumber =
+				#{record.typebookCfnumber,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update book
+		set bookNumber = #{record.booknumber,jdbcType=VARCHAR},
+		ISBN = #{record.isbn,jdbcType=VARCHAR},
+		title =
+		#{record.title,jdbcType=VARCHAR},
+		author =
+		#{record.author,jdbcType=VARCHAR},
+		translator =
+		#{record.translator,jdbcType=VARCHAR},
+		publishHouseNumber =
+		#{record.publishhousenumber,jdbcType=INTEGER},
+		summary =
+		#{record.summary,jdbcType=VARCHAR},
+		callNumber =
+		#{record.callnumber,jdbcType=VARCHAR},
+		imgLocation =
+		#{record.imglocation,jdbcType=VARCHAR},
+		classificationNumber =
+		#{record.classificationnumber,jdbcType=INTEGER},
+		seClassification =
+		#{record.seclassification,jdbcType=VARCHAR},
+		typeCirculationNumber =
+		#{record.typecirculationnumber,jdbcType=INTEGER},
+		borrowTimes =
+		#{record.borrowtimes,jdbcType=INTEGER},
+		bookStatusNumber =
+		#{record.bookstatusnumber,jdbcType=INTEGER},
+		entryDate =
+		#{record.entrydate,jdbcType=TIMESTAMP},
+		publishYear =
+		#{record.publishyear,jdbcType=DATE},
+		typeBook_CFNumber =
+		#{record.typebookCfnumber,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.wyu.pojo.Book">
+		update book
+		<set>
+			<if test="isbn != null">
+				ISBN = #{isbn,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				author = #{author,jdbcType=VARCHAR},
+			</if>
+			<if test="translator != null">
+				translator = #{translator,jdbcType=VARCHAR},
+			</if>
+			<if test="publishhousenumber != null">
+				publishHouseNumber =
+				#{publishhousenumber,jdbcType=INTEGER},
+			</if>
+			<if test="summary != null">
+				summary = #{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="callnumber != null">
+				callNumber = #{callnumber,jdbcType=VARCHAR},
+			</if>
+			<if test="imglocation != null">
+				imgLocation = #{imglocation,jdbcType=VARCHAR},
+			</if>
+			<if test="classificationnumber != null">
+				classificationNumber =
+				#{classificationnumber,jdbcType=INTEGER},
+			</if>
+			<if test="seclassification != null">
+				seClassification = #{seclassification,jdbcType=VARCHAR},
+			</if>
+			<if test="typecirculationnumber != null">
+				typeCirculationNumber =
+				#{typecirculationnumber,jdbcType=INTEGER},
+			</if>
+			<if test="borrowtimes != null">
+				borrowTimes = #{borrowtimes,jdbcType=INTEGER},
+			</if>
+			<if test="bookstatusnumber != null">
+				bookStatusNumber = #{bookstatusnumber,jdbcType=INTEGER},
+			</if>
+			<if test="entrydate != null">
+				entryDate = #{entrydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="publishyear != null">
+				publishYear = #{publishyear,jdbcType=DATE},
+			</if>
+			<if test="typebookCfnumber != null">
+				typeBook_CFNumber = #{typebookCfnumber,jdbcType=INTEGER},
+			</if>
+		</set>
+		where bookNumber = #{booknumber,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.wyu.pojo.Book">
+		update book
+		set ISBN = #{isbn,jdbcType=VARCHAR},
+		title =
+		#{title,jdbcType=VARCHAR},
+		author = #{author,jdbcType=VARCHAR},
+		translator = #{translator,jdbcType=VARCHAR},
+		publishHouseNumber =
+		#{publishhousenumber,jdbcType=INTEGER},
+		summary =
+		#{summary,jdbcType=VARCHAR},
+		callNumber =
+		#{callnumber,jdbcType=VARCHAR},
+		imgLocation =
+		#{imglocation,jdbcType=VARCHAR},
+		classificationNumber =
+		#{classificationnumber,jdbcType=INTEGER},
+		seClassification =
+		#{seclassification,jdbcType=VARCHAR},
+		typeCirculationNumber =
+		#{typecirculationnumber,jdbcType=INTEGER},
+		borrowTimes =
+		#{borrowtimes,jdbcType=INTEGER},
+		bookStatusNumber =
+		#{bookstatusnumber,jdbcType=INTEGER},
+		entryDate =
+		#{entrydate,jdbcType=TIMESTAMP},
+		publishYear =
+		#{publishyear,jdbcType=DATE},
+		typeBook_CFNumber =
+		#{typebookCfnumber,jdbcType=INTEGER}
+		where bookNumber =
+		#{booknumber,jdbcType=VARCHAR}
+	</update>
+</mapper>

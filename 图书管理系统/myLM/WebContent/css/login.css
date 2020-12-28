@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+body {
+	background-image: url("../login_style/img/backgrounds/book10.jpg");
+}
+
+#div_login {
+	width: 400px;
+	height: 250px;
+	background: rgba(255, 255, 255, .4);
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	position: absolute;
+	margin: auto auto;
+	top: -200px;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	
+}

@@ -1,0 +1,85 @@
+body {
+	text-align: center;
+	background: #cccccc;
+}
+
+#div_topName {
+	height: 50px;
+	margin: 0 auto;
+	background: rgba(0, 0, 0, .2);
+	color: #FFFFFF;
+	font-size: 20px;
+}
+
+#div_login {
+	width: 400px;
+	height: 300px;
+	margin: 150px auto;
+	background: rgba(255, 255, 255, .4);
+}
+
+#div_select {
+	width: 400px;
+	height: 50px;
+	
+}
+
+#div_select table {
+	border-collapse: collapse;
+	
+}
+
+#div_select td {
+	width: 400px;
+	height: 50px;
+	text-align: center;
+	font-size: 18px;
+	color: white;
+	border-bottom:solid 1px rgba(255, 255, 255, .3);
+	
+}
+
+#div_select td:hover{
+	color: #009ACD;
+	font-size: 20px;
+	background-color: #ffffff;
+}
+
+#div_form table {
+	margin: 18px auto;
+	border-collapse: collapse;
+}
+
+#div_form tr {
+	background-color: #ffffff;
+	margin: 15px;
+	display: block;
+}
+
+#div_form img {
+	margin: 5px;
+}
+
+#div_form table input {
+	width: 250px;
+	height: 30px;
+	border: #ffffff;
+	padding: 5px;
+	font-size: 16px;
+}
+
+#input_submit {
+	width: 300px !important;
+	height: 40px !important;
+	background-color: #009ACD;
+	color: white;
+}
+
+#input_submit:hover{
+	font-size: 18px;
+}
+
+#div_beizhu{
+	width: 300px;
+	padding-top: 5px;
+}

@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+body {
+	margin: 0 auto;
+	font-size: 20px;
+}
+
+#div_navigation table {
+	border-collapse: collapse;
+}
+
+#div_navigation td {
+	width: 150px;
+	height: 60px;
+	text-align: center;
+	font-size: 16px;
+	
+	font-family: Microsoft YaHei;
+}
+
+#div_navigation {
+	/*
+	background: #954590;
+	
+	background: rgba(16, 78, 139, .9);*/s
+}
+
+.div_removeBorder {
+	/*
+	border: none;
+	*/
+	overflow: hidden;
+}
+
+
+#div_button {
+	text-align: center;
+	font-size: 14px;
+	
+	line-height: 40px;
+	/*
+	background: #104E8B;
+*/
+}
+
+#div_navigation td:hover {
+	background: rgba(16, 78, 139, 2);
+	font-size: 20px;
+}
+
+#div_navigation .easyui-menubutton {
+
+	font-family: Microsoft YaHei;
+	text-align: center;
+}
+
+.easyui-layout{
+	background: blue;
+}

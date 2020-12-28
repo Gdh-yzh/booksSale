@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyu.mapper.RoldMapper" >
+  <resultMap id="BaseResultMap" type="com.wyu.pojo.Rold" >
+    <id column="roldNumber" property="roldnumber" jdbcType="INTEGER" />
+    <result column="roldName" property="roldname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    roldNumber, roldName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wyu.pojo.RoldExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rold
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rold
+    where roldNumber = #{roldnumber,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rold
+    where roldNumber = #{roldnumber,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyu.pojo.RoldExample" >
+    delete from rold
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyu.pojo.Rold" >
+    insert into rold (roldNumber, roldName)
+    values (#{roldnumber,jdbcType=INTEGER}, #{roldname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyu.pojo.Rold" >
+    insert into rold
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roldnumber != null" >
+        roldNumber,
+      </if>
+      <if test="roldname != null" >
+        roldName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roldnumber != null" >
+        #{roldnumber,jdbcType=INTEGER},
+      </if>
+      <if test="roldname != null" >
+        #{roldname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyu.pojo.RoldExample" resultType="java.lang.Integer" >
+    select count(*) from rold
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rold
+    <set >
+      <if test="record.roldnumber != null" >
+        roldNumber = #{record.roldnumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.roldname != null" >
+        roldName = #{record.roldname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rold
+    set roldNumber = #{record.roldnumber,jdbcType=INTEGER},
+      roldName = #{record.roldname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyu.pojo.Rold" >
+    update rold
+    <set >
+      <if test="roldname != null" >
+        roldName = #{roldname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where roldNumber = #{roldnumber,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyu.pojo.Rold" >
+    update rold
+    set roldName = #{roldname,jdbcType=VARCHAR}
+    where roldNumber = #{roldnumber,jdbcType=INTEGER}
+  </update>
+</mapper>

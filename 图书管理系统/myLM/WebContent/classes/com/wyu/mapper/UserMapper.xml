@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyu.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.wyu.pojo.User" >
+    <id column="userNumber" property="usernumber" jdbcType="VARCHAR" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="registrationDate" property="registrationdate" jdbcType="TIMESTAMP" />
+    <result column="expirationDays" property="expirationdays" jdbcType="INTEGER" />
+    <result column="userStatusNumber" property="userstatusnumber" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="roldNumber" property="roldnumber" jdbcType="INTEGER" />
+    <result column="endDate" property="enddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    userNumber, userName, registrationDate, expirationDays, userStatusNumber, password, 
+    roldNumber, endDate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wyu.pojo.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where userNumber = #{usernumber,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user
+    where userNumber = #{usernumber,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyu.pojo.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyu.pojo.User" >
+    insert into user (userNumber, userName, registrationDate, 
+      expirationDays, userStatusNumber, password, 
+      roldNumber, endDate)
+    values (#{usernumber,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{registrationdate,jdbcType=TIMESTAMP}, 
+      #{expirationdays,jdbcType=INTEGER}, #{userstatusnumber,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
+      #{roldnumber,jdbcType=INTEGER}, #{enddate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyu.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="usernumber != null" >
+        userNumber,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="registrationdate != null" >
+        registrationDate,
+      </if>
+      <if test="expirationdays != null" >
+        expirationDays,
+      </if>
+      <if test="userstatusnumber != null" >
+        userStatusNumber,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="roldnumber != null" >
+        roldNumber,
+      </if>
+      <if test="enddate != null" >
+        endDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="usernumber != null" >
+        #{usernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationdate != null" >
+        #{registrationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationdays != null" >
+        #{expirationdays,jdbcType=INTEGER},
+      </if>
+      <if test="userstatusnumber != null" >
+        #{userstatusnumber,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="roldnumber != null" >
+        #{roldnumber,jdbcType=INTEGER},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyu.pojo.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.usernumber != null" >
+        userNumber = #{record.usernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null" >
+        userName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registrationdate != null" >
+        registrationDate = #{record.registrationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expirationdays != null" >
+        expirationDays = #{record.expirationdays,jdbcType=INTEGER},
+      </if>
+      <if test="record.userstatusnumber != null" >
+        userStatusNumber = #{record.userstatusnumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roldnumber != null" >
+        roldNumber = #{record.roldnumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.enddate != null" >
+        endDate = #{record.enddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set userNumber = #{record.usernumber,jdbcType=VARCHAR},
+      userName = #{record.username,jdbcType=VARCHAR},
+      registrationDate = #{record.registrationdate,jdbcType=TIMESTAMP},
+      expirationDays = #{record.expirationdays,jdbcType=INTEGER},
+      userStatusNumber = #{record.userstatusnumber,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      roldNumber = #{record.roldnumber,jdbcType=INTEGER},
+      endDate = #{record.enddate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyu.pojo.User" >
+    update user
+    <set >
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationdate != null" >
+        registrationDate = #{registrationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationdays != null" >
+        expirationDays = #{expirationdays,jdbcType=INTEGER},
+      </if>
+      <if test="userstatusnumber != null" >
+        userStatusNumber = #{userstatusnumber,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="roldnumber != null" >
+        roldNumber = #{roldnumber,jdbcType=INTEGER},
+      </if>
+      <if test="enddate != null" >
+        endDate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where userNumber = #{usernumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyu.pojo.User" >
+    update user
+    set userName = #{username,jdbcType=VARCHAR},
+      registrationDate = #{registrationdate,jdbcType=TIMESTAMP},
+      expirationDays = #{expirationdays,jdbcType=INTEGER},
+      userStatusNumber = #{userstatusnumber,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      roldNumber = #{roldnumber,jdbcType=INTEGER},
+      endDate = #{enddate,jdbcType=TIMESTAMP}
+    where userNumber = #{usernumber,jdbcType=VARCHAR}
+  </update>
+</mapper>

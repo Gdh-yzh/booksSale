@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyu.mapper.StatusBookMapper" >
+  <resultMap id="BaseResultMap" type="com.wyu.pojo.StatusBook" >
+    <id column="bookStatusNumber" property="bookstatusnumber" jdbcType="INTEGER" />
+    <result column="bookStatus" property="bookstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    bookStatusNumber, bookStatus
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wyu.pojo.StatusBookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from status_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from status_book
+    where bookStatusNumber = #{bookstatusnumber,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from status_book
+    where bookStatusNumber = #{bookstatusnumber,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyu.pojo.StatusBookExample" >
+    delete from status_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyu.pojo.StatusBook" >
+    insert into status_book (bookStatusNumber, bookStatus)
+    values (#{bookstatusnumber,jdbcType=INTEGER}, #{bookstatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyu.pojo.StatusBook" >
+    insert into status_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookstatusnumber != null" >
+        bookStatusNumber,
+      </if>
+      <if test="bookstatus != null" >
+        bookStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookstatusnumber != null" >
+        #{bookstatusnumber,jdbcType=INTEGER},
+      </if>
+      <if test="bookstatus != null" >
+        #{bookstatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyu.pojo.StatusBookExample" resultType="java.lang.Integer" >
+    select count(*) from status_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update status_book
+    <set >
+      <if test="record.bookstatusnumber != null" >
+        bookStatusNumber = #{record.bookstatusnumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookstatus != null" >
+        bookStatus = #{record.bookstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update status_book
+    set bookStatusNumber = #{record.bookstatusnumber,jdbcType=INTEGER},
+      bookStatus = #{record.bookstatus,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyu.pojo.StatusBook" >
+    update status_book
+    <set >
+      <if test="bookstatus != null" >
+        bookStatus = #{bookstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bookStatusNumber = #{bookstatusnumber,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyu.pojo.StatusBook" >
+    update status_book
+    set bookStatus = #{bookstatus,jdbcType=VARCHAR}
+    where bookStatusNumber = #{bookstatusnumber,jdbcType=INTEGER}
+  </update>
+</mapper>

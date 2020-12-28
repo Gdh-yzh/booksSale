@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+body{
+	padding: 20px;
+}
+#div_welcome{
+	
+}
+#div_welcome p{
+	margin: 10px;
+	width: 100%;
+	font-size: 30px;
+	text-align: center;
+}
+
+.div_center{
+	padding-top:20px;
+	
+}

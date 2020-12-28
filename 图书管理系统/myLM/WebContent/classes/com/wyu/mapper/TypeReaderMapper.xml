@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyu.mapper.TypeReaderMapper" >
+  <resultMap id="BaseResultMap" type="com.wyu.pojo.TypeReader" >
+    <id column="readerTypeNumber" property="readertypenumber" jdbcType="INTEGER" />
+    <result column="readerType" property="readertype" jdbcType="VARCHAR" />
+    <result column="borrowAmount" property="borrowamount" jdbcType="INTEGER" />
+    <result column="borrowDays" property="borrowdays" jdbcType="INTEGER" />
+    <result column="renewTimesTimes" property="renewtimestimes" jdbcType="INTEGER" />
+    <result column="renewDays" property="renewdays" jdbcType="INTEGER" />
+    <result column="renewAmount" property="renewamount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    readerTypeNumber, readerType, borrowAmount, borrowDays, renewTimesTimes, renewDays, 
+    renewAmount
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wyu.pojo.TypeReaderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from type_reader
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from type_reader
+    where readerTypeNumber = #{readertypenumber,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from type_reader
+    where readerTypeNumber = #{readertypenumber,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyu.pojo.TypeReaderExample" >
+    delete from type_reader
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyu.pojo.TypeReader" >
+    insert into type_reader (readerTypeNumber, readerType, borrowAmount, 
+      borrowDays, renewTimesTimes, renewDays, 
+      renewAmount)
+    values (#{readertypenumber,jdbcType=INTEGER}, #{readertype,jdbcType=VARCHAR}, #{borrowamount,jdbcType=INTEGER}, 
+      #{borrowdays,jdbcType=INTEGER}, #{renewtimestimes,jdbcType=INTEGER}, #{renewdays,jdbcType=INTEGER}, 
+      #{renewamount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyu.pojo.TypeReader" >
+    insert into type_reader
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="readertypenumber != null" >
+        readerTypeNumber,
+      </if>
+      <if test="readertype != null" >
+        readerType,
+      </if>
+      <if test="borrowamount != null" >
+        borrowAmount,
+      </if>
+      <if test="borrowdays != null" >
+        borrowDays,
+      </if>
+      <if test="renewtimestimes != null" >
+        renewTimesTimes,
+      </if>
+      <if test="renewdays != null" >
+        renewDays,
+      </if>
+      <if test="renewamount != null" >
+        renewAmount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="readertypenumber != null" >
+        #{readertypenumber,jdbcType=INTEGER},
+      </if>
+      <if test="readertype != null" >
+        #{readertype,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowamount != null" >
+        #{borrowamount,jdbcType=INTEGER},
+      </if>
+      <if test="borrowdays != null" >
+        #{borrowdays,jdbcType=INTEGER},
+      </if>
+      <if test="renewtimestimes != null" >
+        #{renewtimestimes,jdbcType=INTEGER},
+      </if>
+      <if test="renewdays != null" >
+        #{renewdays,jdbcType=INTEGER},
+      </if>
+      <if test="renewamount != null" >
+        #{renewamount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyu.pojo.TypeReaderExample" resultType="java.lang.Integer" >
+    select count(*) from type_reader
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update type_reader
+    <set >
+      <if test="record.readertypenumber != null" >
+        readerTypeNumber = #{record.readertypenumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.readertype != null" >
+        readerType = #{record.readertype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.borrowamount != null" >
+        borrowAmount = #{record.borrowamount,jdbcType=INTEGER},
+      </if>
+      <if test="record.borrowdays != null" >
+        borrowDays = #{record.borrowdays,jdbcType=INTEGER},
+      </if>
+      <if test="record.renewtimestimes != null" >
+        renewTimesTimes = #{record.renewtimestimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.renewdays != null" >
+        renewDays = #{record.renewdays,jdbcType=INTEGER},
+      </if>
+      <if test="record.renewamount != null" >
+        renewAmount = #{record.renewamount,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update type_reader
+    set readerTypeNumber = #{record.readertypenumber,jdbcType=INTEGER},
+      readerType = #{record.readertype,jdbcType=VARCHAR},
+      borrowAmount = #{record.borrowamount,jdbcType=INTEGER},
+      borrowDays = #{record.borrowdays,jdbcType=INTEGER},
+      renewTimesTimes = #{record.renewtimestimes,jdbcType=INTEGER},
+      renewDays = #{record.renewdays,jdbcType=INTEGER},
+      renewAmount = #{record.renewamount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyu.pojo.TypeReader" >
+    update type_reader
+    <set >
+      <if test="readertype != null" >
+        readerType = #{readertype,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowamount != null" >
+        borrowAmount = #{borrowamount,jdbcType=INTEGER},
+      </if>
+      <if test="borrowdays != null" >
+        borrowDays = #{borrowdays,jdbcType=INTEGER},
+      </if>
+      <if test="renewtimestimes != null" >
+        renewTimesTimes = #{renewtimestimes,jdbcType=INTEGER},
+      </if>
+      <if test="renewdays != null" >
+        renewDays = #{renewdays,jdbcType=INTEGER},
+      </if>
+      <if test="renewamount != null" >
+        renewAmount = #{renewamount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where readerTypeNumber = #{readertypenumber,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyu.pojo.TypeReader" >
+    update type_reader
+    set readerType = #{readertype,jdbcType=VARCHAR},
+      borrowAmount = #{borrowamount,jdbcType=INTEGER},
+      borrowDays = #{borrowdays,jdbcType=INTEGER},
+      renewTimesTimes = #{renewtimestimes,jdbcType=INTEGER},
+      renewDays = #{renewdays,jdbcType=INTEGER},
+      renewAmount = #{renewamount,jdbcType=INTEGER}
+    where readerTypeNumber = #{readertypenumber,jdbcType=INTEGER}
+  </update>
+</mapper>

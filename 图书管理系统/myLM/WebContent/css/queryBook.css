@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+body{
+	padding: 10px;
+	border: solid 1px #eee
+}
+#table_query tr td{
+	padding: 2px;
+}
+
+hr {
+  border: none;
+  border-top: 1px dotted #337ab7!important;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+#table_query input,#table_query select{
+	width: 120px!important;
+	height: 30px!important;
+}
+
+#table_query tr td>div{
+	width: 120px;
+}
+
+.widthLength{
+	width:120px!important;
+}

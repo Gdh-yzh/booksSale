@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyu.mapper.BorrowMapper">
+	<resultMap id="BaseResultMap" type="com.wyu.pojo.BorrowAll">
+		<id column="borrowNumber" property="borrownumber"
+			jdbcType="VARCHAR" />
+		<result column="bookNumber" property="booknumber"
+			jdbcType="VARCHAR" />
+		<result column="readerNumber" property="readernumber"
+			jdbcType="VARCHAR" />
+		<result column="borrowDate" property="borrowdate"
+			jdbcType="TIMESTAMP" />
+		<result column="returnDate" property="returndate"
+			jdbcType="TIMESTAMP" />
+		<result column="borrowStatusNumber"
+			property="borrowstatusnumber" jdbcType="INTEGER" />
+		<result column="borrowingsTimes" property="borrowingstimes"
+			jdbcType="INTEGER" />
+		<result column="endDate" property="enddate"
+			jdbcType="TIMESTAMP" />
+
+		<collection property="Book" ofType="com.wyu.pojo.Book">
+			<id column="bookNumber" property="booknumber" jdbcType="VARCHAR" />
+			<result column="ISBN" property="isbn" jdbcType="VARCHAR" />
+			<result column="title" property="title" jdbcType="VARCHAR" />
+			<result column="author" property="author" jdbcType="VARCHAR" />
+			<result column="translator" property="translator"
+				jdbcType="VARCHAR" />
+			<result column="publishHouseNumber"
+				property="publishhousenumber" jdbcType="INTEGER" />
+			<result column="summary" property="summary" jdbcType="VARCHAR" />
+			<result column="callNumber" property="callnumber"
+				jdbcType="VARCHAR" />
+			<result column="imgLocation" property="imglocation"
+				jdbcType="VARCHAR" />
+			<result column="classificationNumber"
+				property="classificationnumber" jdbcType="INTEGER" />
+			<result column="seClassification" property="seclassification"
+				jdbcType="VARCHAR" />
+			<result column="typeCirculationNumber"
+				property="typecirculationnumber" jdbcType="INTEGER" />
+			<result column="borrowTimes" property="borrowtimes"
+				jdbcType="INTEGER" />
+			<result column="bookStatusNumber" property="bookstatusnumber"
+				jdbcType="INTEGER" />
+			<result column="entryDate" property="entrydate"
+				jdbcType="TIMESTAMP" />
+			<result column="publishYear" property="publishyear"
+				jdbcType="DATE" />
+			<result column="typeBook_CFNumber" property="typebookCfnumber"
+				jdbcType="INTEGER" />
+
+
+
+		</collection>
+		<collection property="Reader" ofType="com.wyu.pojo.Reader">
+
+			<id column="readerNumber" property="readernumber"
+				jdbcType="VARCHAR" />
+			<result column="readerName" property="readername"
+				jdbcType="VARCHAR" />
+			<result column="registrationDate" property="registrationdate"
+				jdbcType="TIMESTAMP" />
+			<result column="expirationDays" property="expirationdays"
+				jdbcType="INTEGER" />
+			<result column="readerStatusNumber"
+				property="readerstatusnumber" jdbcType="INTEGER" />
+			<result column="password" property="password"
+				jdbcType="VARCHAR" />
+			<result column="readerTypeNumber" property="readertypenumber"
+				jdbcType="INTEGER" />
+			<result column="endDate" property="enddate"
+				jdbcType="TIMESTAMP" />
+
+		</collection>
+		<collection property="Statusborrow"
+			ofType="com.wyu.pojo.Statusborrow">
+
+			<id column="statusBorrowNumber" property="statusborrownumber"
+				jdbcType="INTEGER" />
+			<result column="statusBorrowName" property="statusborrowname"
+				jdbcType="VARCHAR" />
+		</collection>
+
+		<collection property="MaxBorrow"
+			ofType="com.wyu.pojo.MaxBorrow">
+
+			<id column="maxBook" property="maxBook" jdbcType="INTEGER" />
+			<result column="readerAmount" property="readerAmount"
+				jdbcType="VARCHAR" />
+		</collection>
+
+
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and borrow.${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and borrow.${criterion.condition}
+									#{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and borrow.${criterion.condition}
+									#{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and borrow.${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		borrowNumber, bookNumber, readerNumber, borrowDate,
+		returnDate, borrowStatusNumber,
+		borrowingsTimes, endDate
+	</sql>
+
+
+	<!-- 联合查询 -->
+	<sql id="Base_Column_Lists">
+		borrowNumber, borrow.bookNumber, borrow.readerNumber,
+		borrowDate,
+		returnDate, borrow.borrowStatusNumber,
+		borrowingsTimes,
+		borrow.endDate,
+		ISBN,title,
+		readerName,
+		statusBorrowName
+	</sql>
+
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.wyu.pojo.BorrowExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from borrow
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+
+
+		<!-- 联合查询 -->
+	</select>
+
+	<select id="selectByExampleBorrowAll" resultMap="BaseResultMap"
+		parameterType="com.wyu.pojo.BorrowExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_Lists" />
+
+		from borrow
+		left JOIN book on borrow.bookNumber = book.bookNumber
+		left JOIN reader on borrow.readerNumber = reader.readerNumber
+		left JOIN statusborrow on borrow.borrowStatusNumber = statusborrow.statusBorrowNumber
+
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<!-- 统计最大借阅本数 -->
+
+	<select id="countMaxBookBorrow" resultMap="BaseResultMap"
+		parameterType="com.wyu.pojo.BorrowExample">
+		select max(b.a) maxBook
+		from (select count(booknumber) a
+		from borrow GROUP BY bookNumber) b
+	</select>
+
+	<!-- 统计借阅的读者数量 -->
+	<select id="countReaderAmountBorrow" resultMap="BaseResultMap"
+		parameterType="com.wyu.pojo.BorrowExample">
+		select count(b.a) readerAmount
+		from (select
+		count(readernumber) a from borrow GROUP BY readernumber) b
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from borrow
+		where borrowNumber = #{borrownumber,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from borrow
+		where borrowNumber = #{borrownumber,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="com.wyu.pojo.BorrowExample">
+		delete from borrow
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.wyu.pojo.Borrow">
+		insert into borrow
+		(borrowNumber, bookNumber, readerNumber,
+		borrowDate, returnDate,
+		borrowStatusNumber,
+		borrowingsTimes, endDate)
+		values
+		(#{borrownumber,jdbcType=VARCHAR}, #{booknumber,jdbcType=VARCHAR},
+		#{readernumber,jdbcType=VARCHAR},
+		#{borrowdate,jdbcType=TIMESTAMP},
+		#{returndate,jdbcType=TIMESTAMP},
+		#{borrowstatusnumber,jdbcType=INTEGER},
+		#{borrowingstimes,jdbcType=INTEGER}, #{enddate,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.wyu.pojo.Borrow">
+		insert into borrow
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="borrownumber != null">
+				borrowNumber,
+			</if>
+			<if test="booknumber != null">
+				bookNumber,
+			</if>
+			<if test="readernumber != null">
+				readerNumber,
+			</if>
+			<if test="borrowdate != null">
+				borrowDate,
+			</if>
+			<if test="returndate != null">
+				returnDate,
+			</if>
+			<if test="borrowstatusnumber != null">
+				borrowStatusNumber,
+			</if>
+			<if test="borrowingstimes != null">
+				borrowingsTimes,
+			</if>
+			<if test="enddate != null">
+				endDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="borrownumber != null">
+				#{borrownumber,jdbcType=VARCHAR},
+			</if>
+			<if test="booknumber != null">
+				#{booknumber,jdbcType=VARCHAR},
+			</if>
+			<if test="readernumber != null">
+				#{readernumber,jdbcType=VARCHAR},
+			</if>
+			<if test="borrowdate != null">
+				#{borrowdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="returndate != null">
+				#{returndate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="borrowstatusnumber != null">
+				#{borrowstatusnumber,jdbcType=INTEGER},
+			</if>
+			<if test="borrowingstimes != null">
+				#{borrowingstimes,jdbcType=INTEGER},
+			</if>
+			<if test="enddate != null">
+				#{enddate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.wyu.pojo.BorrowExample"
+		resultType="java.lang.Integer">
+		select count(*) from borrow
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update borrow
+		<set>
+			<if test="record.borrownumber != null">
+				borrowNumber = #{record.borrownumber,jdbcType=VARCHAR},
+			</if>
+			<if test="record.booknumber != null">
+				bookNumber = #{record.booknumber,jdbcType=VARCHAR},
+			</if>
+			<if test="record.readernumber != null">
+				readerNumber = #{record.readernumber,jdbcType=VARCHAR},
+			</if>
+			<if test="record.borrowdate != null">
+				borrowDate = #{record.borrowdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.returndate != null">
+				returnDate = #{record.returndate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.borrowstatusnumber != null">
+				borrowStatusNumber =
+				#{record.borrowstatusnumber,jdbcType=INTEGER},
+			</if>
+			<if test="record.borrowingstimes != null">
+				borrowingsTimes =
+				#{record.borrowingstimes,jdbcType=INTEGER},
+			</if>
+			<if test="record.enddate != null">
+				endDate = #{record.enddate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update borrow
+		set borrowNumber =
+		#{record.borrownumber,jdbcType=VARCHAR},
+		bookNumber =
+		#{record.booknumber,jdbcType=VARCHAR},
+		readerNumber =
+		#{record.readernumber,jdbcType=VARCHAR},
+		borrowDate =
+		#{record.borrowdate,jdbcType=TIMESTAMP},
+		returnDate =
+		#{record.returndate,jdbcType=TIMESTAMP},
+		borrowStatusNumber =
+		#{record.borrowstatusnumber,jdbcType=INTEGER},
+		borrowingsTimes =
+		#{record.borrowingstimes,jdbcType=INTEGER},
+		endDate =
+		#{record.enddate,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.wyu.pojo.Borrow">
+		update borrow
+		<set>
+			<if test="booknumber != null">
+				bookNumber = #{booknumber,jdbcType=VARCHAR},
+			</if>
+			<if test="readernumber != null">
+				readerNumber = #{readernumber,jdbcType=VARCHAR},
+			</if>
+			<if test="borrowdate != null">
+				borrowDate = #{borrowdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="returndate != null">
+				returnDate = #{returndate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="borrowstatusnumber != null">
+				borrowStatusNumber =
+				#{borrowstatusnumber,jdbcType=INTEGER},
+			</if>
+			<if test="borrowingstimes != null">
+				borrowingsTimes = #{borrowingstimes,jdbcType=INTEGER},
+			</if>
+			<if test="enddate != null">
+				endDate = #{enddate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where borrowNumber = #{borrownumber,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.wyu.pojo.Borrow">
+		update borrow
+		set bookNumber =
+		#{booknumber,jdbcType=VARCHAR},
+		readerNumber =
+		#{readernumber,jdbcType=VARCHAR},
+		borrowDate =
+		#{borrowdate,jdbcType=TIMESTAMP},
+		returnDate =
+		#{returndate,jdbcType=TIMESTAMP},
+		borrowStatusNumber =
+		#{borrowstatusnumber,jdbcType=INTEGER},
+		borrowingsTimes =
+		#{borrowingstimes,jdbcType=INTEGER},
+		endDate =
+		#{enddate,jdbcType=TIMESTAMP}
+		where borrowNumber =
+		#{borrownumber,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+.div_border {
+	
+	border: solid #eee 1px;
+	padding: 10px;
+	margin-top: 15px;
+	padding-bottom: 80px;
+}
+
+#bookText tr td{
+	border: 1px solid #eee;
+	padding: 5px;
+	width: 250px;
+	text-align: center;
+}
+#readerText tr td{
+	border: 1px solid #eee;
+	padding: 5px;
+	width: 200px;
+	text-align: center;
+	
+}

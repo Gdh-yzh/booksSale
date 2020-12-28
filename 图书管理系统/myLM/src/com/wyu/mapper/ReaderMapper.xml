@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyu.mapper.ReaderMapper" >
+  <resultMap id="BaseResultMap" type="com.wyu.pojo.ReaderAll" >
+    <id column="readerNumber" property="readernumber" jdbcType="VARCHAR" />
+    <result column="readerName" property="readername" jdbcType="VARCHAR" />
+    <result column="registrationDate" property="registrationdate" jdbcType="TIMESTAMP" />
+    <result column="expirationDays" property="expirationdays" jdbcType="INTEGER" />
+    <result column="readerStatusNumber" property="readerstatusnumber" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="readerTypeNumber" property="readertypenumber" jdbcType="INTEGER" />
+    <result column="endDate" property="enddate" jdbcType="TIMESTAMP" />
+    		<collection property="TypeReader"
+			ofType="com.wyu.pojo.TypeReader">
+
+			<id column="readerTypeNumber" property="readertypenumber"
+				jdbcType="INTEGER" />
+			<result column="readerType" property="readertype"
+				jdbcType="VARCHAR" />
+			<result column="borrowAmount" property="borrowamount"
+				jdbcType="INTEGER" />
+			<result column="borrowDays" property="borrowdays"
+				jdbcType="INTEGER" />
+			<result column="renewTimesTimes" property="renewtimestimes"
+				jdbcType="INTEGER" />
+			<result column="renewDays" property="renewdays"
+				jdbcType="INTEGER" />
+			<result column="renewAmount" property="renewamount"
+				jdbcType="INTEGER" />
+
+
+		</collection>
+		<collection property="StatusReader"
+			ofType="com.wyu.pojo.StatusReader">
+
+			<id column="readerStatusNumber" property="readerstatusnumber"
+				jdbcType="INTEGER" />
+			<result column="statusName" property="statusname"
+				jdbcType="VARCHAR" />
+
+		</collection>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and reader.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and reader.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and reader.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and reader.${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    readerNumber, readerName, registrationDate, expirationDays, readerStatusNumber, password, 
+    readerTypeNumber, endDate
+  </sql>
+  
+  <!-- 联合查询 -->
+		<sql id="Base_Column_Lists">
+		readerNumber, readerName, registrationDate, expirationDays, reader.readerStatusNumber,
+		password,
+		reader.readerTypeNumber, endDate,
+		status_reader.readerstatusnumber,status_reader.statusname,
+		type_reader.readertypenumber,type_reader.readertype,type_reader.borrowamount,type_reader.borrowdays,type_reader.renewtimestimes,type_reader.renewdays,type_reader.renewamount
+	</sql>
+  
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wyu.pojo.ReaderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from reader
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  
+  <!-- 联合查询 -->
+		<select id="selectByExampleAll" resultMap="BaseResultMap"
+		parameterType="com.wyu.pojo.ReaderExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_Lists" />
+		from reader
+		right JOIN status_reader on reader.readerStatusNumber= status_reader.readerStatusNumber
+		right JOIN type_reader on reader.readerTypeNumber = type_reader.readerTypeNumber
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from reader
+    where readerNumber = #{readernumber,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from reader
+    where readerNumber = #{readernumber,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyu.pojo.ReaderExample" >
+    delete from reader
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyu.pojo.Reader" >
+    insert into reader (readerNumber, readerName, registrationDate, 
+      expirationDays, readerStatusNumber, password, 
+      readerTypeNumber, endDate)
+    values (#{readernumber,jdbcType=VARCHAR}, #{readername,jdbcType=VARCHAR}, #{registrationdate,jdbcType=TIMESTAMP}, 
+      #{expirationdays,jdbcType=INTEGER}, #{readerstatusnumber,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
+      #{readertypenumber,jdbcType=INTEGER}, #{enddate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyu.pojo.Reader" >
+    insert into reader
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="readernumber != null" >
+        readerNumber,
+      </if>
+      <if test="readername != null" >
+        readerName,
+      </if>
+      <if test="registrationdate != null" >
+        registrationDate,
+      </if>
+      <if test="expirationdays != null" >
+        expirationDays,
+      </if>
+      <if test="readerstatusnumber != null" >
+        readerStatusNumber,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="readertypenumber != null" >
+        readerTypeNumber,
+      </if>
+      <if test="enddate != null" >
+        endDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="readernumber != null" >
+        #{readernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="readername != null" >
+        #{readername,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationdate != null" >
+        #{registrationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationdays != null" >
+        #{expirationdays,jdbcType=INTEGER},
+      </if>
+      <if test="readerstatusnumber != null" >
+        #{readerstatusnumber,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="readertypenumber != null" >
+        #{readertypenumber,jdbcType=INTEGER},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyu.pojo.ReaderExample" resultType="java.lang.Integer" >
+    select count(*) from reader
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update reader
+    <set >
+      <if test="record.readernumber != null" >
+        readerNumber = #{record.readernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readername != null" >
+        readerName = #{record.readername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registrationdate != null" >
+        registrationDate = #{record.registrationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expirationdays != null" >
+        expirationDays = #{record.expirationdays,jdbcType=INTEGER},
+      </if>
+      <if test="record.readerstatusnumber != null" >
+        readerStatusNumber = #{record.readerstatusnumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readertypenumber != null" >
+        readerTypeNumber = #{record.readertypenumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.enddate != null" >
+        endDate = #{record.enddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update reader
+    set readerNumber = #{record.readernumber,jdbcType=VARCHAR},
+      readerName = #{record.readername,jdbcType=VARCHAR},
+      registrationDate = #{record.registrationdate,jdbcType=TIMESTAMP},
+      expirationDays = #{record.expirationdays,jdbcType=INTEGER},
+      readerStatusNumber = #{record.readerstatusnumber,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      readerTypeNumber = #{record.readertypenumber,jdbcType=INTEGER},
+      endDate = #{record.enddate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyu.pojo.Reader" >
+    update reader
+    <set >
+      <if test="readername != null" >
+        readerName = #{readername,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationdate != null" >
+        registrationDate = #{registrationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationdays != null" >
+        expirationDays = #{expirationdays,jdbcType=INTEGER},
+      </if>
+      <if test="readerstatusnumber != null" >
+        readerStatusNumber = #{readerstatusnumber,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="readertypenumber != null" >
+        readerTypeNumber = #{readertypenumber,jdbcType=INTEGER},
+      </if>
+      <if test="enddate != null" >
+        endDate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where readerNumber = #{readernumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyu.pojo.Reader" >
+    update reader
+    set readerName = #{readername,jdbcType=VARCHAR},
+      registrationDate = #{registrationdate,jdbcType=TIMESTAMP},
+      expirationDays = #{expirationdays,jdbcType=INTEGER},
+      readerStatusNumber = #{readerstatusnumber,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      readerTypeNumber = #{readertypenumber,jdbcType=INTEGER},
+      endDate = #{enddate,jdbcType=TIMESTAMP}
+    where readerNumber = #{readernumber,jdbcType=VARCHAR}
+  </update>
+</mapper>

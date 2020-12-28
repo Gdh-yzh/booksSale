@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyu.mapper.TypecirculationBookMapper" >
+  <resultMap id="BaseResultMap" type="com.wyu.pojo.TypecirculationBook" >
+    <id column="typeCirculationNumber" property="typecirculationnumber" jdbcType="INTEGER" />
+    <result column="typeCirculationName" property="typecirculationname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    typeCirculationNumber, typeCirculationName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wyu.pojo.TypecirculationBookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from typecirculation_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from typecirculation_book
+    where typeCirculationNumber = #{typecirculationnumber,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from typecirculation_book
+    where typeCirculationNumber = #{typecirculationnumber,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyu.pojo.TypecirculationBookExample" >
+    delete from typecirculation_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyu.pojo.TypecirculationBook" >
+    insert into typecirculation_book (typeCirculationNumber, typeCirculationName
+      )
+    values (#{typecirculationnumber,jdbcType=INTEGER}, #{typecirculationname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyu.pojo.TypecirculationBook" >
+    insert into typecirculation_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typecirculationnumber != null" >
+        typeCirculationNumber,
+      </if>
+      <if test="typecirculationname != null" >
+        typeCirculationName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typecirculationnumber != null" >
+        #{typecirculationnumber,jdbcType=INTEGER},
+      </if>
+      <if test="typecirculationname != null" >
+        #{typecirculationname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyu.pojo.TypecirculationBookExample" resultType="java.lang.Integer" >
+    select count(*) from typecirculation_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update typecirculation_book
+    <set >
+      <if test="record.typecirculationnumber != null" >
+        typeCirculationNumber = #{record.typecirculationnumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.typecirculationname != null" >
+        typeCirculationName = #{record.typecirculationname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update typecirculation_book
+    set typeCirculationNumber = #{record.typecirculationnumber,jdbcType=INTEGER},
+      typeCirculationName = #{record.typecirculationname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyu.pojo.TypecirculationBook" >
+    update typecirculation_book
+    <set >
+      <if test="typecirculationname != null" >
+        typeCirculationName = #{typecirculationname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where typeCirculationNumber = #{typecirculationnumber,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyu.pojo.TypecirculationBook" >
+    update typecirculation_book
+    set typeCirculationName = #{typecirculationname,jdbcType=VARCHAR}
+    where typeCirculationNumber = #{typecirculationnumber,jdbcType=INTEGER}
+  </update>
+</mapper>

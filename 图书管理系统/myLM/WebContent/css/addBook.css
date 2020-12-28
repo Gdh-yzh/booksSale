@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+body {
+	
+}
+
+#div_a {
+	z-index: 2;
+	position: absolute;
+	background: rgba(0, 0, 0, .7);
+	height: 180px;
+	width: 140px;
+	text-align: center;
+	line-height: 140px;
+	visibility: hidden;
+}
+
+.text_bg{
+padding: 5px ;
+background: #eee;
+}
+
+#div_a a {
+	color: white;
+}
+
+#div_border img {
+	position: absolute;
+	z-index: 1;
+	text-align: center;
+	top: 10%;
+	left: 10%;
+}
+
+#div_border {
+	width: 140px;
+	height: 180px;
+	top: 30%;
+	left: 30%;
+	position: relative;
+	background: #eee;
+}
+
+#div_input{
+	padding-top: 10px;
+}
+
+#div_input input  {
+	max-width: 120px;
+	color:#337ab7;
+	border: #337ab7 solid 1px;
+}
+
+#div_input input:hover{
+	color:white;
+	background: #337ab7;
+}
+.div_noValidator{
+	margin-bottom:15px;
+}
+#myModalOK table td{
+	padding: 5px;
+}

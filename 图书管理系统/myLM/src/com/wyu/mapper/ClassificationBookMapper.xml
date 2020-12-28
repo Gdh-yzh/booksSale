@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyu.mapper.ClassificationBookMapper" >
+  <resultMap id="BaseResultMap" type="com.wyu.pojo.ClassificationBook" >
+    <id column="classificationNumber" property="classificationnumber" jdbcType="INTEGER" />
+    <result column="classificationLetter" property="classificationletter" jdbcType="VARCHAR" />
+    <result column="classificationType" property="classificationtype" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    classificationNumber, classificationLetter, classificationType
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wyu.pojo.ClassificationBookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from classification_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from classification_book
+    where classificationNumber = #{classificationnumber,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from classification_book
+    where classificationNumber = #{classificationnumber,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyu.pojo.ClassificationBookExample" >
+    delete from classification_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyu.pojo.ClassificationBook" >
+    insert into classification_book (classificationNumber, classificationLetter, 
+      classificationType)
+    values (#{classificationnumber,jdbcType=INTEGER}, #{classificationletter,jdbcType=VARCHAR}, 
+      #{classificationtype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyu.pojo.ClassificationBook" >
+    insert into classification_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classificationnumber != null" >
+        classificationNumber,
+      </if>
+      <if test="classificationletter != null" >
+        classificationLetter,
+      </if>
+      <if test="classificationtype != null" >
+        classificationType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classificationnumber != null" >
+        #{classificationnumber,jdbcType=INTEGER},
+      </if>
+      <if test="classificationletter != null" >
+        #{classificationletter,jdbcType=VARCHAR},
+      </if>
+      <if test="classificationtype != null" >
+        #{classificationtype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyu.pojo.ClassificationBookExample" resultType="java.lang.Integer" >
+    select count(*) from classification_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update classification_book
+    <set >
+      <if test="record.classificationnumber != null" >
+        classificationNumber = #{record.classificationnumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.classificationletter != null" >
+        classificationLetter = #{record.classificationletter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classificationtype != null" >
+        classificationType = #{record.classificationtype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update classification_book
+    set classificationNumber = #{record.classificationnumber,jdbcType=INTEGER},
+      classificationLetter = #{record.classificationletter,jdbcType=VARCHAR},
+      classificationType = #{record.classificationtype,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyu.pojo.ClassificationBook" >
+    update classification_book
+    <set >
+      <if test="classificationletter != null" >
+        classificationLetter = #{classificationletter,jdbcType=VARCHAR},
+      </if>
+      <if test="classificationtype != null" >
+        classificationType = #{classificationtype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where classificationNumber = #{classificationnumber,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyu.pojo.ClassificationBook" >
+    update classification_book
+    set classificationLetter = #{classificationletter,jdbcType=VARCHAR},
+      classificationType = #{classificationtype,jdbcType=VARCHAR}
+    where classificationNumber = #{classificationnumber,jdbcType=INTEGER}
+  </update>
+</mapper>

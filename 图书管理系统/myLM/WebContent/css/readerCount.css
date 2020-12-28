@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+
+body{
+	margin: 20px 20px;
+}
+.div_table{
+	width: 50%;
+	
+}
+
+#readerText tr td{
+	border: 1px solid #eee;
+	padding: 5px;
+	width: 200px;
+	text-align: center;
+	
+}

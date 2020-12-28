@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyu.mapper.StatusborrowMapper" >
+  <resultMap id="BaseResultMap" type="com.wyu.pojo.Statusborrow" >
+    <id column="statusBorrowNumber" property="statusborrownumber" jdbcType="INTEGER" />
+    <result column="statusBorrowName" property="statusborrowname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    statusBorrowNumber, statusBorrowName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wyu.pojo.StatusborrowExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from statusborrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from statusborrow
+    where statusBorrowNumber = #{statusborrownumber,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from statusborrow
+    where statusBorrowNumber = #{statusborrownumber,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wyu.pojo.StatusborrowExample" >
+    delete from statusborrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyu.pojo.Statusborrow" >
+    insert into statusborrow (statusBorrowNumber, statusBorrowName
+      )
+    values (#{statusborrownumber,jdbcType=INTEGER}, #{statusborrowname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyu.pojo.Statusborrow" >
+    insert into statusborrow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="statusborrownumber != null" >
+        statusBorrowNumber,
+      </if>
+      <if test="statusborrowname != null" >
+        statusBorrowName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="statusborrownumber != null" >
+        #{statusborrownumber,jdbcType=INTEGER},
+      </if>
+      <if test="statusborrowname != null" >
+        #{statusborrowname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyu.pojo.StatusborrowExample" resultType="java.lang.Integer" >
+    select count(*) from statusborrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update statusborrow
+    <set >
+      <if test="record.statusborrownumber != null" >
+        statusBorrowNumber = #{record.statusborrownumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.statusborrowname != null" >
+        statusBorrowName = #{record.statusborrowname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update statusborrow
+    set statusBorrowNumber = #{record.statusborrownumber,jdbcType=INTEGER},
+      statusBorrowName = #{record.statusborrowname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyu.pojo.Statusborrow" >
+    update statusborrow
+    <set >
+      <if test="statusborrowname != null" >
+        statusBorrowName = #{statusborrowname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where statusBorrowNumber = #{statusborrownumber,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyu.pojo.Statusborrow" >
+    update statusborrow
+    set statusBorrowName = #{statusborrowname,jdbcType=VARCHAR}
+    where statusBorrowNumber = #{statusborrownumber,jdbcType=INTEGER}
+  </update>
+</mapper>
